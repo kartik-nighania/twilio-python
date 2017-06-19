@@ -34,8 +34,7 @@ class LocalList(ListResource):
         self._uri = '/Accounts/{account_sid}/IncomingPhoneNumbers/Local.json'.format(**self._solution)
 
     def stream(self, beta=values.unset, friendly_name=values.unset,
-               phone_number=values.unset, origin=values.unset, limit=None,
-               page_size=None):
+               phone_number=values.unset, limit=None, page_size=None):
         """
         Streams LocalInstance records from the API as a generator stream.
         This operation lazily loads records as efficiently as possible until the limit
@@ -45,7 +44,6 @@ class LocalList(ListResource):
         :param bool beta: The beta
         :param unicode friendly_name: The friendly_name
         :param unicode phone_number: The phone_number
-        :param unicode origin: The origin
         :param int limit: Upper limit for the number of records to return. stream()
                           guarantees to never return more than limit.  Default is no limit
         :param int page_size: Number of records to fetch per request, when not set will use
@@ -62,15 +60,13 @@ class LocalList(ListResource):
             beta=beta,
             friendly_name=friendly_name,
             phone_number=phone_number,
-            origin=origin,
             page_size=limits['page_size'],
         )
 
         return self._version.stream(page, limits['limit'], limits['page_limit'])
 
     def list(self, beta=values.unset, friendly_name=values.unset,
-             phone_number=values.unset, origin=values.unset, limit=None,
-             page_size=None):
+             phone_number=values.unset, limit=None, page_size=None):
         """
         Lists LocalInstance records from the API as a list.
         Unlike stream(), this operation is eager and will load `limit` records into
@@ -79,7 +75,6 @@ class LocalList(ListResource):
         :param bool beta: The beta
         :param unicode friendly_name: The friendly_name
         :param unicode phone_number: The phone_number
-        :param unicode origin: The origin
         :param int limit: Upper limit for the number of records to return. list() guarantees
                           never to return more than limit.  Default is no limit
         :param int page_size: Number of records to fetch per request, when not set will use
@@ -94,15 +89,13 @@ class LocalList(ListResource):
             beta=beta,
             friendly_name=friendly_name,
             phone_number=phone_number,
-            origin=origin,
             limit=limit,
             page_size=page_size,
         ))
 
     def page(self, beta=values.unset, friendly_name=values.unset,
-             phone_number=values.unset, origin=values.unset,
-             page_token=values.unset, page_number=values.unset,
-             page_size=values.unset):
+             phone_number=values.unset, page_token=values.unset,
+             page_number=values.unset, page_size=values.unset):
         """
         Retrieve a single page of LocalInstance records from the API.
         Request is executed immediately
@@ -110,7 +103,6 @@ class LocalList(ListResource):
         :param bool beta: The beta
         :param unicode friendly_name: The friendly_name
         :param unicode phone_number: The phone_number
-        :param unicode origin: The origin
         :param str page_token: PageToken provided by the API
         :param int page_number: Page Number, this value is simply for client state
         :param int page_size: Number of records to return, defaults to 50
@@ -122,7 +114,6 @@ class LocalList(ListResource):
             'Beta': beta,
             'FriendlyName': friendly_name,
             'PhoneNumber': phone_number,
-            'Origin': origin,
             'PageToken': page_token,
             'Page': page_number,
             'PageSize': page_size,
@@ -297,7 +288,6 @@ class LocalInstance(InstanceResource):
             'date_updated': deserialize.rfc2822_datetime(payload['date_updated']),
             'friendly_name': payload['friendly_name'],
             'phone_number': payload['phone_number'],
-            'origin': payload['origin'],
             'sid': payload['sid'],
             'sms_application_sid': payload['sms_application_sid'],
             'sms_fallback_method': payload['sms_fallback_method'],
@@ -393,14 +383,6 @@ class LocalInstance(InstanceResource):
         :rtype: unicode
         """
         return self._properties['phone_number']
-
-    @property
-    def origin(self):
-        """
-        :returns: The origin
-        :rtype: unicode
-        """
-        return self._properties['origin']
 
     @property
     def sid(self):
